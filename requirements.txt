@@ -1,0 +1,9 @@
+# Core
+torch>=2.0
+torchvision>=0.15
+numpy
+Pillow
+
+# UI
+streamlit>=1.30
+matplotlib
