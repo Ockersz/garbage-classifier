@@ -125,17 +125,10 @@ def predict_image(model: nn.Module, preprocess, device: torch.device, img: Image
 
 
 def plot_probs(probs: Dict[str, float]):
-    import matplotlib.pyplot as plt
-    labels = list(probs.keys())
-    values = [probs[k] for k in labels]
-    fig, ax = plt.subplots(figsize=(6, 3.5))
-    ax.bar(labels, values)
-    ax.set_ylim(0.0, 1.0)
-    ax.set_ylabel("Probability")
-    ax.set_title("Class Probabilities")
-    for i, v in enumerate(values):
-        ax.text(i, v + 0.01, f"{v:.2f}", ha="center", va="bottom", fontsize=9)
-    st.pyplot(fig, clear_figure=True)
+    for label, value in probs.items():
+        percent = int(round(value * 100))
+        st.write(f"**{label}** - {percent}%")
+        st.progress(value)
 
 
 # ---------------- UI ----------------
@@ -167,7 +160,7 @@ def run_predict_and_show(img_bytes: bytes):
     st.success(f"Prediction: **{top_cls}**")
     st.write("Probabilities:")
     plot_probs(results)
-    st.json(results)
+    # st.json(results)
 
 with tab_upload:
     up = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png", "bmp", "webp"])
